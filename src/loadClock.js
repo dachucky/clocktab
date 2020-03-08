@@ -28,7 +28,7 @@ async function loadClock() {
   var DEFAULT_SHADOW   = '';
   var DEFAULT_THEME    = 'custom';
   var FS_NAME          = "fs";
-  var MIN_WIDTH        = 580;
+  var MIN_WIDTH        = 900;
   var timeEl           = document.getElementById('time');
   var timeTableEl      = document.getElementById('timeTable');
   var timeRowEl        = document.getElementById('timeRow');
@@ -78,8 +78,8 @@ async function loadClock() {
      {id:'color_icon'        ,description:'icon color'      ,default_:DEFAULT_ICOL                        },
      {id:'show_seconds_title',description:'seconds in title',default_:false                               },
      {id:'show_seconds'      ,description:'seconds'         ,default_:true                                },
-     {id:'12_hour'           ,description:'12-hour'         ,default_:DEFAULT_12HOUR                      },
-     {id:'show_pm'           ,description:'am/pm'           ,default_:true                ,dependency:'12_hour'          },
+     {id:'12_hour'           ,description:'12-hour'         ,default_:false                      },
+     {id:'show_pm'           ,description:'am/pm'           ,default_:false                ,dependency:'12_hour'          },
      {id:'show_date'         ,description:'date'            ,default_:true                                               },
      {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }
    ];
@@ -150,6 +150,7 @@ async function loadClock() {
         const bg_color_val = getOpt('bg_color');
         setBackground(bg_color_val);
         document.documentElement.style.color=getOpt('color_font' )
+        document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
     })();
     //}}}
   //}}}

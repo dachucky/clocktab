@@ -10,8 +10,7 @@ window.onload = async () => {
 
   document.documentElement.classList.remove('hideApp');
 
-  /*
+
   // To avoid memory leak
   autoReloadPage();
-  */
 };
