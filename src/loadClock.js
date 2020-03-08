@@ -10,7 +10,6 @@ P.S. Clock Tab is open source (<a href="https://github.com/brillout/clocktab">gi
 import ml from './ml';
 import {hasBeenAutoReloaded} from './autoReloadPage';
 import setBackground from './setBackground';
-import loadFontList from './loadFontList';
 
 export default loadClock;
 
@@ -85,217 +84,14 @@ async function loadClock() {
      {id:'show_week'         ,description:'week'            ,default_:false               ,dependency:'show_date'        }
    ];
 
-   var themes = { 
-     'simple':{
-        'bg_color':'#ffffff',
-        'bg_image': '',
-        'clock_font':'Syncopate',
-        'font_shadow':'none',
-        'color_font':'#333333'},
-     'steel':{
-        'bg_color':'',
-        //original URL: http://good-wallpapers.com/pictures/6357/Gray%20Comb%20Texture.jpg
-        'bg_image':'https://i.imgur.com/9YKVj.jpg',
-        'clock_font':'Syncopate',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#e9e9e9'},
-     'grey':{
-        'bg_color':'#3D3F42',
-        'bg_image': '',
-        'clock_font':'Lora',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#EBEBF1'},
-     'lobster':{
-        'bg_color':'#330000',
-        'bg_image': '',
-        'clock_font':'Lobster',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#333333'},
-     'digital':{
-        'bg_color':'black',
-        'bg_image': '',
-        'clock_font':'Orbitron',
-        'font_shadow':'none',
-        'color_font':'#00ff00'},
-     'paper':{
-        //original URL: http://wallpaper.goodfon.ru/image/209099-1920x1200.jpg
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/x97za.jpg',
-        'clock_font':'Redressed',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#111111'},
-     'ocean':{
-        //orginal URL: http://www.hotelclubposeidon.it/grafica/background.jpg
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/mOHYs.jpg',
-        'clock_font':'Michroma',
-      //'font_shadow':'1px 1px 2px #fff',
-      //'font_shadow':'0px 1px 1px #333',
-        'font_shadow':'none',
-        'color_font':'#333'},
-     'classy':{
-      // orginal URL: http://www.fantasy-and-art.com/wp-content/gallery/abstract-wallpapers/between_darkness_and_wonder_black_purity_hd_wallpaper.jpg
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/0KS5T.jpg',
-        'clock_font':'Nothing You Could Do',
-        'font_shadow':'none',
-        'color_font':'#0000aa'},
-     'ocean2':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/i6yiy.jpg',
-        'clock_font':'Droid Sans Mono',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#fff'},
-     'river_valley':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/8G6JM.jpg',
-        'clock_font':'Lato',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#fff'},
-     'red':{
-        'bg_color':'#a00',
-        'bg_image': '',
-        'clock_font':'Muli',
-        'font_shadow':'0 1px 1px #000',
-        'color_font':'#1a1a1a'},
-     'sin_city':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/R60yCtG.jpg',
-        'clock_font':'Knewave',
-        'color_font':'#e71010'},
-     'van_gogh':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/WfHm7XM.jpg',
-        'clock_font':'Akronim',
-        'color_font':'#b63232'},
-     'mars_terraformed':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/9Ocmfvt.png',
-        'font_shadow':'0 1px 1px #000',
-        'clock_font':'Allerta Stencil',
-        'color_font':'#6d0000'},
-     'neo':{
-        'bg_color':'black',
-        'bg_image':'',
-        'font_shadow':'',
-        'clock_font':'Allerta Stencil',
-        'color_font':'#6d0000'},
-     'purple':{
-        'bg_color':'#0e0e0e',
-        'bg_image':'',
-        'font_shadow':'',
-        'clock_font':'Text Me One',
-        'color_font':'#6d30be'},
-     'naruto':{
-        'bg_color':'',
-        'bg_image':'https://i.imgur.com/iyyms5e.jpg',
-        'font_shadow':'',
-        'clock_font':'Knewave',
-        'color_font':'#ffdf00'},
-   }; 
-
-    var randomTheme = (function()
-    {
-    //var random = Math.floor(Math.random()*ml.len(themes));
-      var random = Math.floor(Math.random()*Object.keys(themes).length);
-      var counter=0;
-      for(var ret in themes) if(counter++===random) return ret;
-    })();
-
-    function isCustomTheme() {
-      return getOpt('theme')==='';
-    }
     getOpt=function(id) {
-      if( id!=='theme' ){
-        var theme = getOpt('theme');
-        if(theme==='random') theme=randomTheme;
-        if( theme && themes[theme] && (id in themes[theme])) {
-          return themes[theme][id];
-        }
-      }
-      var el = document.getElementById(id);
-
-    // return el.type==='text'||el.type==='color'||el.nodeName==='SELECT'?el.value:!!el.checked;
-
-      if( el.type==='checkbox' ){
-        return !!el.checked;
-      }
-      return el.value;
-    };
-
-    //generate html options
-    //{{{
-    (function()
-    {
-      const optionsEl = document.getElementById('options');
-      const headerEl = document.getElementById('header');
       for(var i=0;i<opts.length;i++) {
         var opt = opts[i];
-        opt.dom = document.createElement('label');
-        opt.dom.setAttribute('class','opti');
-        opt.dom.appendChild(document.createElement('span')).innerHTML=opt.description;//+'&nbsp;';
-        //opt.dom.innerHTML=opt.description;
-        opt.input = document.createElement(opt.id==='clock_font'||opt.id==='theme'?'select':'input');
-          opt.input.id   = opt.id;
-          var isCheckbox   = opt.default_===false || opt.default_===true;
-          var isColorInput = opt.default_[0]==='#';
-          var isTextInput  = !isCheckbox && !isColorInput;
-          if(opt.input.nodeName==='INPUT')
-          {
-            if(isColorInput) opt.input.style.width = '35px';
-            if(isTextInput)
-            {
-              if(opt.placeholder || opt.default_) opt.input.size=(opt.placeholder || opt.default_).length*3/4;
-              else opt.input.style.width = '35px';
-            }
-            opt.input.setAttribute('type',isCheckbox?'checkbox':(isColorInput?'color':'text'));
-          }
-          else opt.input.style.width=opt.id==='clock_font'?'90px':'83px';
-          if(isCheckbox) opt.dom.insertBefore(opt.input,opt.dom.firstChild);
-          else           opt.dom. appendChild(opt.input);
-          if(opt.placeholder) opt.input.placeholder=opt.placeholder;
-        if(isCheckbox || isColorInput) opt.dom['classList']['add']('pointerCursor');
-        optionsEl.appendChild(opt.dom);
+        if (opt.id === id) {
+          return opt.default_;
+        }
       }
-
-      if(ml.browser().usesWebkit)
-      {
-        var initMoveFired=false;
-        window.onmousemove=function(ev) {
-           if(!initMoveFired++) return;
-           headerEl.setAttribute('class','hoverEnabled');
-           delete window.onmousemove;
-        };
-      }
-      else headerEl.setAttribute('class','hoverEnabled');
-      if( hasBeenAutoReloaded() ){
-        headerEl.style.transition = 'none';
-        headerEl.style.opacity='0';
-        delete headerEl.style.transition;
-      }
-      setTimeout(function(){
-        headerEl.style.opacity='';
-      },2000);
-      /*
-      //add option toggle
-      setTimeout(function(){//gecko requires a timeout
-        document.getElementById('optionsToggle').style.opacity='0';
-      },200);
-      document.getElementById('optionsToggle').onclick=function(){document.documentElement['classList']['add']('options');document.getElementById('optionsToggle').style.opacity='1'};
-      document.body.onclick=function(ev) { var target=ml.getEventSource(ev); if(!ml.isChildOf(target,document.getElementById('optionsToggle'))&&!ml.isChildOf(target,document.getElementById('options'))){document.documentElement['classList']['remove']('options');document.getElementById('optionsToggle').style.opacity=0}};
-      */
-
-      //populate theme option
-      document.getElementById('theme').innerHTML='<option label="<custom>" value="">&lt;custom&gt;</option><option label="<random>" value="random">&lt;random&gt;</option>';
-      for(var i in themes)
-      {
-        var fop=document.createElement('option');
-        fop.innerHTML=i;
-        fop.value    =i;
-        document.getElementById('theme').appendChild(fop);
-      }
-    })();
-    //}}}
+    };
 
     var loadClockFont;
     (function() {
@@ -339,10 +135,6 @@ async function loadClock() {
               callback();
             })
           };
-          const arvoFont = 'Arvo';
-          fontLoader(arvoFont,function(){
-            document.getElementById('header').style.fontFamily = arvoFont;
-          });
           loadClockFont().then(() => {
             console.log("load-progress", "clock font loaded");
             resolveAwaitClockFont();
@@ -355,66 +147,11 @@ async function loadClock() {
     //refresh options onchange
     //{{{
     (function(){
-      function setOptVisibility()
-      {
-        for(var i=0;i<opts.length;i++)
-        {
-          var opt = opts[i];
-          var toHide=opt.dependency && !getOpt(opt.dependency) || opt.negDependency && getOpt(opt.negDependency);
-            opt.dom.style.width     =toHide?'0px'   :'';
-            opt.dom.style.height    =toHide?'0px'   :'';
-            opt.dom.style.visibility=toHide?'hidden':'visible';
-            opt.dom.style.position  =toHide?'absolute':'';
-            opt.dom.style.zIndex    =toHide?'-1':'';
-        }
-      }
-      function bg_listener() {
-        const bg_image_val = getOpt('bg_image');
         const bg_color_val = getOpt('bg_color');
-        setBackground(bg_image_val || bg_color_val);
-      }
-      function bg_image_listener(){ setBackground(getOpt('bg_image')) }
-      function colorChangeListener(){document.documentElement.style.color        =getOpt('color_font' )}
-      function fontShadowListener (){document.documentElement.style['textShadow']=getOpt('font_shadow')}
-      function theme_change_listener(){
-        fontShadowListener();
-        colorChangeListener();
-        loadClockFont();
-        bg_listener();
-        setOptVisibility();
-        if( isCustomTheme() ) {
-          const fonts = Object.values(themes).map(t => t.clock_font);
-          loadFontList(fonts);
-        }
-      }
-      function refreshStuff(){if(domBeat)domBeat(true);setOptVisibility()};
-
-      for(var i=0;i<opts.length;i++)
-      {
-        var opt = opts[i];
-        var changeListener;
-        if(opt.id==='show_seconds')changeListener=function(val){
-          document.body['classList'][val?'remove':'add']('noSeconds');refreshStuff();setTimeout(refreshStuff,100);};
-        else if(opt.id==='show_pm'||opt.id==='12_hour')
-          changeListener=function(){
-          document.body['classList'][getOpt('show_pm')&&getOpt('12_hour')?'remove':'add']('noPeriod');
-          refreshStuff();
-          setTimeout(refreshStuff,100);//again with timeout because sometimes it seems that effect if changing classList is delayed
-        }
-        else if(opt.id==='font_shadow') changeListener=fontShadowListener;
-        else if(opt.id==='color_font')  changeListener=colorChangeListener;
-        else if(opt.id==='theme')  changeListener=theme_change_listener;
-        else if(opt.id==='clock_font')   changeListener=loadClockFont;
-        else if(opt.id==='bg_color')   changeListener=bg_listener;
-        else if(opt.id==='bg_image')   changeListener=bg_listener;
-        else                       changeListener=refreshStuff;
-        ml.persistantInput(opt.id,changeListener,opt.default_,0,opt.id!=='show_seconds'&&opt.id!=='show_pm'&&opt.id!=='12_hour');
-      }
-      theme_change_listener();
+        setBackground(bg_color_val);
+        document.documentElement.style.color=getOpt('color_font' )
     })();
     //}}}
-
-    ml.fullscreenElement({scaleEl: contentEl,zoomEl: timeTableEl, keybinding: 'f'});
   //}}}
   })();
 
