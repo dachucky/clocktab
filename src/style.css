@@ -1,5 +1,3 @@
-@import './css/ad_layout.css';
-
 #char2:before { content: "M" }
 #char1:before { content: "A" }
 body.isPm #char1:before { content: "P" }

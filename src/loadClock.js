@@ -19,15 +19,15 @@ async function loadClock() {
   const awaitClockFont = new Promise(r => resolveAwaitClockFont = r);
 
   var DEFAULT_12HOUR   = /(AM)|(PM)/.test(new Date().toLocaleTimeString())||window.navigator.language==='en-US';
-  var DEFAULT_BG_COLOR = '#ffffff';
+  var DEFAULT_BG_COLOR = '#000000';
   var DEFAULT_BG_IMAGE = '';
-  var DEFAULT_FONT     = 'Josefin Slab';
-  var DEFAULT_FCOL     = '#a70000';
+  var DEFAULT_FONT     = 'Orbitron';
+  var DEFAULT_FCOL     = '#FFFFFF';
 //var DEFAULT_ICOL     = '#cc0000';
 //var DEFAULT_ICOL     = '#007000';
   var DEFAULT_ICOL     = '#545454';
   var DEFAULT_SHADOW   = '';
-  var DEFAULT_THEME    = 'steel';
+  var DEFAULT_THEME    = 'custom';
   var FS_NAME          = "fs";
   var MIN_WIDTH        = 580;
   var timeEl           = document.getElementById('time');
@@ -342,7 +342,6 @@ async function loadClock() {
           const arvoFont = 'Arvo';
           fontLoader(arvoFont,function(){
             document.getElementById('header').style.fontFamily = arvoFont;
-            document.getElementById('ad_remover').style.fontFamily = arvoFont;
           });
           loadClockFont().then(() => {
             console.log("load-progress", "clock font loaded");
